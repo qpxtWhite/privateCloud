@@ -1,0 +1,15 @@
+{
+  "name": "cloud",
+  "version": "0.0.0",
+  "description": "private cloud",
+  "main": "js/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "white",
+  "license": "ISC",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-cmd-transport": "^0.5.1"
+  }
+}
