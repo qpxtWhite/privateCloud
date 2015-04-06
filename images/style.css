@@ -22,6 +22,7 @@ a.btnType3.no-icon{padding:0 10px;}
 .icon-delete{background-position-x:0;}
 .icon-rename{background-position-x:-40px;}
 .icon-download{background-position-x:-20px;}
+.icon-arrow{background:url(./icons.png) -272px 0; width:15px; height:15px; display:block; float:left; margin:4px 0 0 0;}
 
 a.btnType3 .icon{position:absolute; top:4px; left:7px;}
 a.btnType3.disable .icon{background-position-y:-20px;}
@@ -70,4 +71,19 @@ html,body{background: #eee; height: 100%; overflow: hidden; font-family: Arial,s
 
 .popup{position:absolute; top:0; left:0; width:100%; height:100%;}
 .popup .pop-input{position:absolute; top:50%; left:50%; z-index: 10; background:#eee; border:1px solid #c0c0c0; box-shadow: 0 5px 5px #c9c9c9; text-align: center; padding:20px;}
-.popup .pop-input .close{position: absolute; top:-15px; right:-15px; font-size:20px; display:block; padding:5px; width:20px; height:20px; line-height: 20px; text-align: center; color:black; text-decoration: none;}
+.popup .close{position: absolute; top:-15px; right:-15px; font-size:20px; display:block; padding:5px; width:20px; height:20px; line-height: 20px; text-align: center; color:black; text-decoration: none;}
+
+.popwrap{width:450px; height:300px; display:block; background:#eee; position: absolute; top:50%; left:50%; margin:-150px 0 0 -225px; border:1px solid #c0c0c0; box-shadow: 0 5px 5px #c9c9c9; z-index: 10; text-align: center;}
+.popwrap p{padding:10px 0 10px 10px; border-bottom:1px solid #e0e0e0; margin:0; text-align: left;}
+.move-wrap{height:210px; overflow: scroll; font-size: 12px; border-bottom:1px solid #e0e0e0; margin: 0 0 5px 0;}
+.move-wrap ul,.move-wrap li{list-style: none; margin:0; padding:0;}
+.move-wrap li ul{display:none;}
+.move-wrap ul li{padding:0 0 0 20px;}
+.move-wrap .filelist{height:24px; line-height: 24px; padding:1px; text-align: left;}
+.move-wrap li.loading>.filelist .icon-arrow{background:url(./24.gif) 0 0;}
+.move-wrap li.open>.filelist .icon-arrow{background-position:-287px 0;}
+.move-wrap li.open>ul{display:block;}
+.move-wrap li.empty>ul{display:none;}
+.move-wrap li.empty>.filelist .icon-arrow{background:none;}
+.move-wrap li .filelist.select{background:#ebf4f9!important; padding:0; border:1px solid #99c9e1;}
+.move-wrap li .filelist span{cursor: default;}

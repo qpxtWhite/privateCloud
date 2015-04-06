@@ -2,7 +2,7 @@
 * @Author: White
 * @Email: weifengwang@pptv.com
 * @Date:   2015-04-01 21:44:59
-* @Last Modified time: 2015-04-02 00:53:20
+* @Last Modified time: 2015-04-06 23:34:25
 */
 
 define(function(require, exports, module) {
@@ -23,6 +23,7 @@ define(function(require, exports, module) {
             if(obj && typeof obj=='object'){
                 if(obj.type == 'dir'){
                     $jsDownload.addClass('disable');
+                    $jsCopy.addClass('disable');
                 } else {
                 }
                 fileObj = {};
