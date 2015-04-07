@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <script>
+            function test(){
+                console.log('uploadcomplete')
+            }
+        </script>
+    </head>
+    <body>
+        <form action="http://54.187.96.250:10000/api/v1/storage?action=upload&path=/doc/abcd.css&token=21d4b7b1abaa655d2c3379872774881d" method="post" enctype="multipart/form-data"  target="uploadtg">
+            <input type="file" name="file">
+            <input type="submit" value="确定" id="submitBtn"/>
+        </form>
+        <iframe name="uploadtg" id="uploadtg" onload="test()"></iframe>
+    </body>
+</html>
