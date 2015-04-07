@@ -2,7 +2,7 @@
  * @Author: White
  * @Email: weifengwang@pptv.com
  * @Date:   2015-03-28 13:58:02
- * @Last Modified time: 2015-04-02 01:38:08
+ * @Last Modified time: 2015-04-07 23:39:52
  */
 define(function (require, exports, module) {
     var $ = require('jquery');
@@ -11,6 +11,7 @@ define(function (require, exports, module) {
     var user = require('util/user');
     var login = require('util/login');
     var work = require('util/work');
+    var upload = require('util/upload');
     require('util/tool');
 
     $(window).hashchange(function(){
@@ -47,6 +48,9 @@ define(function (require, exports, module) {
         var path = hash.get().path;
         path.pop();
         hash.set('work/'+path.join('/'));
+    })
+    $('.upload a').on('click', function(ev){
+        upload.init();
     })
     $('body').on('click', '.popup .close', function(){
         $(this).parents('.popup').remove();

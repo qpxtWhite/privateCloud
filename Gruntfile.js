@@ -2,7 +2,7 @@
 * @Author: WhiteWang
 * @Date:   2015-04-02 12:24:35
 * @Last Modified by:   weifengwang
-* @Last Modified time: 2015-04-07 19:40:16
+* @Last Modified time: 2015-04-07 20:26:35
 */
 
 'use strict';
@@ -96,17 +96,17 @@ module.exports = function(grunt) {
                     dest:'build/images'
                 }]
             }
-        },
-        imagemin:{
-            main:{
-                files:[{
-                    expand:true,
-                    cwd:'build/images',
-                    src:'**/*.{png,jpg,gif}',
-                    dest::'build/images'
-                }]
-            }
         }
+        // imagemin:{
+        //     main:{
+        //         files:[{
+        //             expand:true,
+        //             cwd:'build/images',
+        //             src:'**/*.{png,jpg,gif}',
+        //             dest::'build/images'
+        //         }]
+        //     }
+        // }
     });
 
     grunt.loadNpmTasks('grunt-contrib-clean');
@@ -115,7 +115,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
-    grunt.loadNpmTasks('grunt-contrib-imagemin');
+    // grunt.loadNpmTasks('grunt-contrib-imagemin');
 
     grunt.registerTask('default', [
         'clean:build',
@@ -126,6 +126,6 @@ module.exports = function(grunt) {
         'concat:main',
         'uglify:main',
         'cssmin:main',
-        'imagemin:main'
+        // 'imagemin:main'
     ]);
 };

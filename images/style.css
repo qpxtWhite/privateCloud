@@ -87,3 +87,6 @@ html,body{background: #eee; height: 100%; overflow: hidden; font-family: Arial,s
 .move-wrap li.empty>.filelist .icon-arrow{background:none;}
 .move-wrap li .filelist.select{background:#ebf4f9!important; padding:0; border:1px solid #99c9e1;}
 .move-wrap li .filelist span{cursor: default;}
+
+.popup .pop-upload{position:absolute; top:50%; left:50%; z-index: 10; background:#eee; border:1px solid #c0c0c0; box-shadow: 0 5px 5px #c9c9c9; text-align: left; padding:20px; width:350px; height:150px; margin:-75px 0 0 -175px;}
+.popup .pop-upload .upsubmit{margin:10px 0 0 0;}
