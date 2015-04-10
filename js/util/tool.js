@@ -2,7 +2,7 @@
 * @Author: White
 * @Email: weifengwang@pptv.com
 * @Date:   2015-04-02 00:49:32
-* @Last Modified time: 2015-04-07 00:20:03
+* @Last Modified time: 2015-04-10 10:33:31
 */
 
 define(function(require, exports, module) {
@@ -17,7 +17,7 @@ define(function(require, exports, module) {
 
     var tp_pop = '<div class="popup"><div class="pop-input"><input type="text" placeholder="请输入名称" /><div><a href="javascript:;" class="btnType1 jsSubmit load-hidden">确定</a><img class="loading-img" src="images/loading.gif" /></div><a href="javascript:;" class="close">x</a></div></div>';
     var tp_movepop='<div class="popup"><div class="popwrap"><p>复制到：</p><div class="move-wrap"><%= listdata %></div><a href="javascript:;" class="close">x</a><div><a href="javascript:;" class="btnType1 jsSubmit load-hidden">确定</a><img class="loading-img" src="images/loading.gif" /></div></div></div>';
-    var tp_movelist = '<ul><% _.each(data, function(item){ if(item.type==\'dir\'){ while(item.path.substr(0,1)==\'/\' && item.path.substr(1,1)==\'/\'){item.path.substr(1)} if(item.path==\'/\'){item.path=\'\'} %>'+
+    var tp_movelist = '<ul><% _.each(data, function(item){ if(item.type==\'dir\'){ while(item.path.substr(0,1)==\'/\' && item.path.substr(1,1)==\'/\'){item.path.substr(1)} %>'+
                                     '<li><div class="filelist" data-path="<%= item.path %>"><i class="icon-arrow"></i><span><%= item.name %></span></div></li>'+
                                 '<% }}) %></ul>';
     var $jsCopy = $('.jsCopy'),
@@ -42,9 +42,10 @@ define(function(require, exports, module) {
             }
             $(this).parent().addClass('loading');
             var fileobj = adaptor.get().obj;
+            var to_path = $select.attr('data-path')=='/' ? ($select.attr('data-path')+fileobj.name) : ($select.attr('data-path')+'/'+fileobj.name);
             ajax({
                 url: api.moveFile,
-                data: {token:user.token, from_path:fileobj.path, to_path:$select.attr('data-path')+'/'+fileobj.name},
+                data: {token:user.token, from_path:fileobj.path, to_path:to_path},
                 success: function(data){
                     $pop.remove();
                     if(data.status==0){
