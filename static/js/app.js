@@ -2,7 +2,7 @@
  * @Author: White
  * @Email: weifengwang@pptv.com
  * @Date:   2015-03-28 13:58:02
- * @Last Modified time: 2015-04-07 23:39:52
+ * @Last Modified time: 2015-04-12 12:14:14
  */
 define(function (require, exports, module) {
     var $ = require('jquery');
@@ -55,5 +55,13 @@ define(function (require, exports, module) {
     $('body').on('click', '.popup .close', function(){
         $(this).parents('.popup').remove();
     })
+    $('.file-con').height(getfileheight());
+    $(window).on('resize', function(){
+        $('.file-con').height(getfileheight());
+    })
     $(window).hashchange();
+    function getfileheight(){
+        var windowH = $(window).height();
+        return windowH-50-45;
+    }
 });

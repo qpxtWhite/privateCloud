@@ -2,7 +2,7 @@
 * @Author: White
 * @Email: weifengwang@pptv.com
 * @Date:   2015-04-01 19:48:55
-* @Last Modified time: 2015-04-03 00:34:48
+* @Last Modified time: 2015-04-12 17:11:51
 */
 
 define(function(require, exports, module) {
@@ -60,23 +60,49 @@ define(function(require, exports, module) {
         });
         return $li;
     }
+    function rePath(obj){
+        while(obj.path.substr(0,1)=='/' && obj.path.substr(1,1)=='/'){
+            obj.path = obj.path.substr(1);
+        }
+        return obj;
+    }
     function File(){
         this.init = function(data){
             $space.children('ul').html('');
+            data.sort(function(a, b){
+                if(a.name && b.name && a.name<b.name){
+                    return -1;
+                } else {
+                    return 1;
+                }
+            });
+            var dArr = [];
+            var fArr = [];
             for(var i=0; i<data.length; i++){
                 var obj = data[i];
                 if(!!obj.status){
                     continue;
                 }
-                while(obj.path.substr(0,1)=='/' && obj.path.substr(1,1)=='/'){
-                    obj.path = obj.path.substr(1);
+                if(obj.type == 'dir'){
+                    dArr.push(obj);
+                } else {
+                    fArr.push(obj);
+                }
+            }
+            data = dArr.concat(fArr);
+            for(var i=0; i<data.length; i++){
+                var obj = data[i];
+                if(!!obj.status){
+                    continue;
                 }
                 this.add(obj);
             }
         }
         this.add = function(obj){
-            var $li = getListDom(obj);
-            $space.children('ul').append($li);
+            $space.children('ul').append(getListDom(rePath(obj)));
+        }
+        this.prepend = function(obj){
+            $space.children('ul').prepend(getListDom(rePath(obj)));
         }
     }
 

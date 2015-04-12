@@ -2,7 +2,7 @@
 * @Author: White
 * @Email: weifengwang@pptv.com
 * @Date:   2015-04-02 00:49:32
-* @Last Modified time: 2015-04-10 10:33:31
+* @Last Modified time: 2015-04-12 17:12:07
 */
 
 define(function(require, exports, module) {
@@ -15,17 +15,19 @@ define(function(require, exports, module) {
     var file = require('util/file');
     var _ = require('underscore');
 
-    var tp_pop = '<div class="popup"><div class="pop-input"><input type="text" placeholder="请输入名称" /><div><a href="javascript:;" class="btnType1 jsSubmit load-hidden">确定</a><img class="loading-img" src="images/loading.gif" /></div><a href="javascript:;" class="close">x</a></div></div>';
-    var tp_movepop='<div class="popup"><div class="popwrap"><p>复制到：</p><div class="move-wrap"><%= listdata %></div><a href="javascript:;" class="close">x</a><div><a href="javascript:;" class="btnType1 jsSubmit load-hidden">确定</a><img class="loading-img" src="images/loading.gif" /></div></div></div>';
-    var tp_movelist = '<ul><% _.each(data, function(item){ if(item.type==\'dir\'){ while(item.path.substr(0,1)==\'/\' && item.path.substr(1,1)==\'/\'){item.path.substr(1)} %>'+
+    var tp_pop = '<div class="popup"><div class="pop-input"><input type="text" placeholder="请输入名称" /><div><a href="javascript:;" class="btnType1 jsSubmit load-hidden">确定</a><img class="loading-img" src="static/images/loading.gif" /></div><a href="javascript:;" class="close">x</a></div></div>';
+    var tp_movepop='<div class="popup"><div class="popwrap"><p>复制到：</p><div class="move-wrap"><%= listdata %></div><a href="javascript:;" class="close">x</a><div><a href="javascript:;" class="btnType1 jsSubmit load-hidden">确定</a><img class="loading-img" src="static/images/loading.gif" /></div></div></div>';
+    var tp_movelist = '<ul><% _.each(data, function(item){ if(item.type==\'dir\'){ while(item.path.substr(0,1)==\'/\' && item.path.substr(1,1)==\'/\'){item.path = item.path.substr(1)} %>'+
                                     '<li><div class="filelist" data-path="<%= item.path %>"><i class="icon-arrow"></i><span><%= item.name %></span></div></li>'+
                                 '<% }}) %></ul>';
+var tp_delete = '<div class="popup"><div class="pop-input" style="width:200px; margin:-70px 0 0 -100px;"><p>确定要删除 <%= filename %> 吗？</p><div><a href="javascript:;" class="btnType1 jsSubmit load-hidden" style="margin:0 10px;">确定</a><a href="javascript:;" class="btnType1 jsCancel load-hidden" style="margin:0 10px;">取消</a><img class="loading-img" src="static/images/loading.gif" /></div><a href="javascript:;" class="close">x</a></div></div>';
     var $jsCopy = $('.jsCopy'),
         $jsMove = $('.jsMove'),
         $jsDelete = $('.jsDelete'),
         $jsRename = $('.jsRename'),
         $jsDownload = $('.jsDownload'),
         $jsNew = $('.jsNew');
+        $jsRefresh = $('.jsRefresh');
     var $filecon = $('.file-con');
     $jsCopy.on('click', function(){
         if($(this).hasClass('disable')){
@@ -90,12 +92,16 @@ define(function(require, exports, module) {
                             for(var i=0; i<data.length; i++){
                                 if(data[i].type=='dir'){
                                     count++;
+                                    break;
                                 }
                             }
                             if(!count){
                                 $select.parent().addClass('empty').addClass('loaded');
                             } else {
-                                $select.parent().addClass('loaded').addClass('open').append(_.template(tp_movelist,{variable:'data'})(data));
+                                $select.parent().addClass('loaded').addClass('open');
+                                var _temp = _.template(tp_movelist,{variable:'data'});
+                                var temp = _temp(data);
+                                $select.parent().append(temp);
                             }
                         }
                     },
@@ -117,6 +123,7 @@ define(function(require, exports, module) {
         $('body').append($pop);
         var $input = $pop.find('input[type=text]');
         $input.val(fileObj.obj.name);
+        $input.focus();
         $pop.find('.jsSubmit').on('click', function(){
             if($input.val() == ''){
                 return;
@@ -142,12 +149,29 @@ define(function(require, exports, module) {
             })
         })
     });
+    $jsRefresh.on('click', function(){
+        if($(this).hasClass('disable')){
+            return;
+        }
+        $filecon.addClass('loading');
+        ajax({
+            url: api.getFileList,
+            data: {path: '/'+hash.get().path.join('/'), token:user.token},
+            success: function(data){
+                $filecon.removeClass('loading');
+                if(data){
+                    file.init(data);
+                }
+            }
+        })
+    });
     $jsNew.on('click', function(){
         if($(this).hasClass('disable')){
             return;
         }
         var $pop = $(tp_pop);
         $('body').append($pop);
+        $pop.find('input[type=text]').focus();
         $pop.find('.jsSubmit').on('click', function(){
             var $input = $pop.find('input[type=text]');
             if($input.val() == ''){
@@ -161,7 +185,7 @@ define(function(require, exports, module) {
                 success: function(data){
                     $pop.remove();
                     if(data.status==0){
-                        file.add({
+                        file.prepend({
                             status: 0,
                             name:$input.val(),
                             path: path,
@@ -190,22 +214,29 @@ define(function(require, exports, module) {
             return;
         }
         var fileObj = adaptor.get();
-        $filecon.addClass('loading');
-        ajax({
-            url: api.rmfile,
-            data: {dir: fileObj.obj.path, token: user.token},
-            success: function(data){
-                $filecon.removeClass('loading');
-                if(data.status==0){
-                    fileObj.$el.remove();
-                } else {
+        var $pop = $(_.template(tp_delete)({filename:fileObj.obj.name}));
+        $('body').append($pop);
+        $pop.find('.jsCancel').on('click', function(){
+            $pop.remove();
+        })
+        $pop.find('.jsSubmit').on('click', function(){
+            $(this).parent().addClass('loading');
+            ajax({
+                url: api.rmfile,
+                data: {dir: fileObj.obj.path, token: user.token},
+                success: function(data){
+                    $pop.remove();
+                    if(data.status==0){
+                        fileObj.$el.remove();
+                    } else {
+                        alert('接口出错，请稍后再试');
+                    }
+                },
+                error: function(){
+                    $pop.remove();
                     alert('接口出错，请稍后再试');
                 }
-            },
-            error: function(){
-                $filecon.removeClass('loading');
-                alert('接口出错，请稍后再试');
-            }
+            })
         })
     })
 });

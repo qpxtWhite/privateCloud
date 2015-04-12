@@ -2,7 +2,7 @@
 * @Author: White
 * @Email: weifengwang@pptv.com
 * @Date:   2015-04-07 23:37:35
-* @Last Modified time: 2015-04-08 00:35:06
+* @Last Modified time: 2015-04-12 13:37:44
 */
 
 define(function(require, exports, module) {
@@ -18,7 +18,7 @@ define(function(require, exports, module) {
                                 '<input type="file" name="file" />'+
                                 '<div class="upsubmit">'+
                                     '<input type="submit" value="上传" class="load-hidden" />'+
-                                    '<img class="loading-img" src="images/loading.gif" />'+
+                                    '<img class="loading-img" src="static/images/loading.gif" />'+
                                 '</div>'+
                             '</form>'+
                             '<iframe name="uploadtg" id="uploadtg" width="0" height="0"></iframe>'+

@@ -2,7 +2,7 @@
 * @Author: White
 * @Email: weifengwang@pptv.com
 * @Date:   2015-04-01 19:18:25
-* @Last Modified time: 2015-04-03 00:25:29
+* @Last Modified time: 2015-04-12 16:15:29
 */
 
 define(function(require, exports, module) {
@@ -32,10 +32,11 @@ define(function(require, exports, module) {
                 data: {path: '/'+path.join('/'), token: user.token},
                 success: function(data){
                     $space.removeClass('loading');
-                    if(data && data.length && data.length>0){
+                    if(data){
                         file.init(data);
                     }
-                }
+                },
+                error: function(){}
             })
 
         }
