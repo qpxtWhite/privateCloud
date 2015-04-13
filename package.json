@@ -1,6 +1,6 @@
 {
   "name": "privatecloud",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "private cloud",
   "main": "js/app.js",
   "scripts": {

@@ -2,7 +2,7 @@
 * @Author: WhiteWang
 * @Date:   2015-04-02 12:24:35
 * @Last Modified by:   weifengwang
-* @Last Modified time: 2015-04-12 17:45:39
+* @Last Modified time: 2015-04-13 21:17:52
 */
 
 'use strict';
@@ -12,6 +12,27 @@ module.exports = function(grunt) {
     var text = transport.text.init(grunt);
     var script = transport.script.init(grunt);
     var pkg = grunt.file.readJSON('package.json');
+    var getDateTime = function(){
+        var date = new Date();
+        var d = date.getDate();
+        if(d<10){
+            d = '0'+d;
+        }
+        var m = date.getMonth()+1;
+        if(m<10){
+            m = '0'+m;
+        }
+        var y = date.getFullYear();
+        var h = date.getHours();
+        if(h<10){
+            h = '0'+h;
+        }
+        var min = date.getMinutes();
+        if(min<10){
+            min='0'+min;
+        }
+        return (y+m+d+h+min).toString();
+    }
     grunt.initConfig({
         version: '<%= pkg.version %>',
         transport: {
@@ -107,32 +128,24 @@ module.exports = function(grunt) {
             }
         },
         compress: {
-            main: {
+            build: {
                 options: {
                     archive: function(){
-                        var date = new Date();
-                        var d = date.getDate();
-                        if(d<10){
-                            d = '0'+d;
-                        }
-                        var m = date.getMonth()+1;
-                        if(m<10){
-                            m = '0'+m;
-                        }
-                        var y = date.getFullYear();
-                        var h = date.getHours();
-                        if(h<10){
-                            h = '0'+h;
-                        }
-                        var min = date.getMinutes();
-                        if(min<10){
-                            min='0'+min;
-                        }
-                        return 'build-'+y+m+d+h+min+'.zip';
+                        return 'build-'+getDateTime()+'.zip';
                     }
                 },
                 expand: true,
                 src: ['build/**/*'],
+                dest: '/'
+            },
+            main:{
+                options: {
+                    archive: function(){
+                        return 'privateCloud-'+getDateTime()+'.zip';
+                    }
+                },
+                expand: true,
+                src: ['*', '.*', 'build/**/*','static/**/*'],
                 dest: '/'
             }
         }
@@ -157,5 +170,6 @@ module.exports = function(grunt) {
         'uglify:main',
         'cssmin:main',
         'compress:main'
+        // 'compress:build'
     ]);
 };
