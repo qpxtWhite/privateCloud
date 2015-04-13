@@ -1,1 +1,1 @@
-define("api",[],function(){var a="./api/v1/storage",b="./open",c={login:a+"?action=login",getFileList:a+"?action=get_server_file_list",mkdir:a+"?action=mkdir",rmfile:a+"?action=rm_file",rename:a+"?action=rename",upload:a+"?action=upload",download:b,moveFile:a+"?action=move_file"};return c});
+define("api",[],function(){var a={login:"./login.php",getFileList:"./getFileList.php",mkdir:"./mkdir.php",rmfile:"./mkdir.php",rename:"./mkdir.php",upload:"http://54.187.96.250:10000/api/v1/storage?action=upload",moveFile:"./mkdir.php"};return a});
